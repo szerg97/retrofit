@@ -56,7 +56,8 @@ public class AdapterService {
     }
 
     private String convertMapToJson(Map<String, Object> map) {
-        Gson gson = new Gson();
-        return gson.toJson(map);
+        StringBuilder sb = new StringBuilder();
+        map.forEach((k, v) -> sb.append(k).append("=").append(v).append("\n"));
+        return sb.toString();
     }
 }
