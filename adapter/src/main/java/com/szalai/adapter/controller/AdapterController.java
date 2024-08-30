@@ -1,9 +1,12 @@
 package com.szalai.adapter.controller;
 
+import com.szalai.adapter.exception.CustomException;
 import com.szalai.adapter.service.AdapterService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import retrofit2.Response;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/adapter")
@@ -14,7 +17,18 @@ public class AdapterController {
 
     @GetMapping("/health")
     public HealthDto health() {
-        return adapterService.getHealth().body();
+        Response<HealthDto> healthDtoResponse = Optional.of(adapterService.getHealth())
+                .filter(h -> h.body() != null)
+                .orElseThrow(CustomException::connectionToClientFailure);
+        return healthDtoResponse.body();
+    }
+
+    @GetMapping("/health/oops")
+    public HealthDto healthOops() {
+        Response<HealthDto> healthDtoResponse = Optional.of(adapterService.getHealthOops())
+                .filter(h -> h.body() != null)
+                .orElseThrow(CustomException::connectionToClientFailure);
+        return healthDtoResponse.body();
     }
 
     @PostMapping(path = "/file")

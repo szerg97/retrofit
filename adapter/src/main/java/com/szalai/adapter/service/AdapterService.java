@@ -1,25 +1,24 @@
 package com.szalai.adapter.service;
 
-import com.google.gson.Gson;
 import com.szalai.adapter.controller.FileParamsDto;
 import com.szalai.adapter.controller.FileStatusDto;
 import com.szalai.adapter.controller.HealthDto;
 import com.szalai.adapter.model.Client;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class AdapterService {
 
@@ -40,6 +39,16 @@ public class AdapterService {
         try {
             return client.getHealth().execute();
         } catch (IOException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Response<HealthDto> getHealthOops() {
+        try {
+            return client.getHealthOops().execute();
+        } catch (IOException e) {
+            log.error(e.getMessage());
             throw new RuntimeException(e);
         }
     }

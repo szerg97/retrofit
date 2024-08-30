@@ -11,6 +11,9 @@ public interface Client {
     @GET("api/v1/client/health")
     Call<HealthDto> getHealth();
 
+    @GET("api/v1/client/health/oops")
+    Call<HealthDto> getHealthOops();
+
     @Multipart
     @POST("api/v1/client/file")
     Call<FileStatusDto> postFile(@Part MultipartBody.Part file);

@@ -22,7 +22,14 @@ public class ClientController {
 
     @GetMapping("/health")
     public HealthDto health() {
+        log.info("Client health check started");
         return new HealthDto("OK");
+    }
+
+    @GetMapping("/health/oops")
+    public HealthDto healthOops() {
+        log.info("Client health check started");
+        throw new IllegalStateException("Oops");
     }
 
     @PostMapping(path = "/file", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
